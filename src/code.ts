@@ -1,20 +1,21 @@
-import { Observable } from 'rxjs';
 import { interval } from 'rxjs';
 import { take } from 'rxjs/operators';
 import helper from './helper';
-let observable = interval(1000).pipe(take(5))
 
+let liveStreaming$ = interval(1000).pipe(
+  take(5)
+);
 
-let subscription = observable.subscribe(
-  (x: any) => helper.addItem(`第一個 observer ${x}`),
-  (error: any) => console.error(error),
-  () =>  helper.addItem(`第一個 observer Completed`)
-)
+liveStreaming$.subscribe(
+  (val) => helper.addItem(`第一個 observer: ${val}`),
+  error => console.error(error),
+  () => helper.addItem(`第一個 observer complete`)
+);
 
 setTimeout(() => {
-  let subscription2 = observable.subscribe(
-    (x: any) => helper.addItem(`第二個 observer ${x}`),
-    (error: Error) => console.error(error),
-    () => helper.addItem(`第二個 observer Completed`)
-  )
-}, 6000)
+  liveStreaming$.subscribe( 
+    (val) => helper.addItem(`第二個 observer: ${val}`),
+    error => console.error(error),
+    () => helper.addItem(`第二個 observer complete`)
+  ) 
+},2000)
