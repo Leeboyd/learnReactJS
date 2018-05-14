@@ -1,19 +1,17 @@
 import { interval } from 'rxjs';
-import { take, publish, refCount } from 'rxjs/operators';
+import { take, publish } from 'rxjs/operators';
 import helper from './helper';
 
 let publisher$ = interval(1000).pipe(
   take(5),
-  publish(),
-  refCount()
+  publish()
 );
-setTimeout(() => {
-  publisher$.subscribe(
-    (val) => helper.addItem(`第一個 observer: ${val}`),
-    error => console.error(error),
-    () => helper.addItem(`第一個 observer complete`)
-  );
-}, 1100);
+
+publisher$.subscribe(
+  (val) => helper.addItem(`第一個 observer: ${val}`),
+  error => console.error(error),
+  () => helper.addItem(`第一個 observer complete`)
+);
 
 setTimeout(() => {
   publisher$.subscribe( 
@@ -21,4 +19,6 @@ setTimeout(() => {
     error => console.error(error),
     () => helper.addItem(`第二個 observer complete`)
   ) 
-}, 3100);
+}, 3000);
+
+(publisher$ as any).connect();
