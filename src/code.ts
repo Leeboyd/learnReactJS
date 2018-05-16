@@ -1,27 +1,17 @@
 import { Observable } from 'rxjs';
-import { share } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { tap, filter } from 'rxjs/operators'
 import helper from './helper';
 
-let stream$ = Observable.create((observer) => {
-  observer.next( 1 );
-  observer.next( 2 );
-  observer.next( 3 );
-  observer.complete();
-}).pipe(
-  share()
+let stream$ = of(1,2,3,4,5).pipe(
+  tap((x) => {
+    helper.addItem(`tap ${x}`)
+  }),
+  filter((value) => {
+    return value % 2 === 0;
+  })
 );
-setTimeout(() => {
-  stream$.subscribe(
-    (val) => helper.addItem(`第一個 observer: ${val}`),
-    error => console.error(error),
-    () => helper.addItem(`第一個 observer complete`)
-  );
-}, 1200)
 
-setTimeout(() => {
-  stream$.subscribe(
-    (val) => helper.addItem(`第二個 observer: ${val}`),
-    error => console.error(error),
-    () => helper.addItem(`第二個 observer complete`)
-  );
-}, 2200)
+stream$.subscribe((value) => {
+  helper.addItem(`value ${value}`)
+})
