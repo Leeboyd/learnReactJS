@@ -1,0 +1,11 @@
+body {
+  font-size: 20px;
+}
+
+.red_margin {
+  border: 2px solid red;
+}
+
+.acer_margin {
+  border: 2px solid rgba(149,201,74,1);
+}
