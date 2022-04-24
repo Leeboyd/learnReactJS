@@ -347,7 +347,7 @@ yarn.lock
 /coverage
 
 # production
-/build
+build
 
 # misc
 .DS_Store
